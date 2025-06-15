@@ -26,7 +26,7 @@ resource "aws_apigatewayv2_integration" "api_gateway_sqs_integration" {
 resource "aws_apigatewayv2_route" "api_gateway_route" {
   api_id    = aws_apigatewayv2_api.api_gateway.id
   route_key = "POST /data"
-  target    = "integrations/${aws_apigatewayv2_integration.api_gateway_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.api_gateway_sqs_integration.id}"
 }
 
 resource "aws_apigatewayv2_stage" "api_stage" {
