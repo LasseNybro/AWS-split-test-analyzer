@@ -10,7 +10,7 @@ env:
 phases:
   install:
     runtime-versions:
-      node: 20
+      nodejs: 20
     commands:
       - echo "Installing node dependencies..."
       - yarn install
