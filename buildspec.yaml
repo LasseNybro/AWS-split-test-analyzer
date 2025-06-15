@@ -28,7 +28,7 @@ phases:
 
   post_build:
     commands:
-      - cd ../../../../../
+      - cd ../../../../
       - echo "Installing Terraform..."
       - curl -Lo terraform.zip https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip
       - unzip terraform.zip
