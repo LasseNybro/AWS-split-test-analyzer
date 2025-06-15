@@ -14,7 +14,7 @@ resource "aws_lambda_function" "lambda" {
 }
 
 resource "aws_cloudwatch_log_group" "handler_lambda" {
-  name = "/aws/lambda/${aws_lambda_function.handler.function_name}"
+  name = "/aws/lambda/${aws_lambda_function.lambda.function_name}"
 }
 
 resource "aws_iam_role" "lambda_iam" {

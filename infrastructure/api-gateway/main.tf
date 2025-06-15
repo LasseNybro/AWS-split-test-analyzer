@@ -10,7 +10,7 @@ resource "aws_apigatewayv2_api" "api_gateway" {
 
 resource "aws_apigatewayv2_integration" "api_gateway_sqs_integration" {
   api_id              = aws_apigatewayv2_api.api_gateway.id
-  credentials_arn     = aws_iam_role.example.arn
+  credentials_arn     = aws_iam_role.api_gateway_role.arn
   description         = "SQS Integration for API Gateway POST endpoint"
   integration_type    = "AWS_PROXY"
   integration_subtype = "SQS-SendMessage"
@@ -33,6 +33,34 @@ resource "aws_apigatewayv2_stage" "api_stage" {
   api_id      = aws_apigatewayv2_api.api_gateway.id
   name        = "$default"
   auto_deploy = true
+}
+
+resource "aws_iam_role" "api_gateway_role" {
+  name = "${var.service_name}-api-gateway-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect: "Allow",
+        Principal: {
+          Service: "apigateway.amazonaws.com"
+        },
+        Action: "sts:AssumeRole"
+      },
+      {
+        Effect: "Allow",
+        Action: [
+          "sqs:SendMessage",
+          "sqs:GetQueueAttributes"
+        ],
+        Resource: [
+          var.sqs_queue_id
+        ]
+      }
+    ]
+  })
+  
 }
 
 # resource "aws_apigatewayv2_integration" "api_gateway_integration" {
