@@ -25,22 +25,46 @@ resource "aws_iam_role" "lambda_iam" {
     Statement = [
       {
         Effect: "Allow",
+        Principal: {
+          Service: "lambda.amazonaws.com"
+        },
+        Action: "sts:AssumeRole"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy" "lambda_policy" {
+  name = "${var.service_name}-lambda-policy"
+  role = aws_iam_role.lambda_iam.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect: "Allow",
         Action: [
           "dynamodb:PutItem",
           "dynamodb:UpdateItem",
           "dynamodb:DeleteItem",
           "dynamodb:BatchWriteItem",
           "dynamodb:GetItem",
-          #"dynamodb:BatchGetItem",
-          #"dynamodb:Scan",
-          #"dynamodb:Query",
           "dynamodb:ConditionCheckItem"
         ],
         Resource: [
           var.dynamodb_arn,
-          "var.dynamodb_arn/*"
+          "${var.dynamodb_arn}/*"
         ]
       },
+      {
+        Effect: "Allow",
+        Action: [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ],
+        Resource: "*"
+      }
     ]
   })
 }

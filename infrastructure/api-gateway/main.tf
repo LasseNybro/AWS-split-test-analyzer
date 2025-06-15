@@ -47,20 +47,28 @@ resource "aws_iam_role" "api_gateway_role" {
           Service: "apigateway.amazonaws.com"
         },
         Action: "sts:AssumeRole"
-      },
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy" "api_gateway_policy" {
+  name = "${var.service_name}-api-gateway-policy"
+  role = aws_iam_role.api_gateway_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
       {
         Effect: "Allow",
         Action: [
           "sqs:SendMessage",
           "sqs:GetQueueAttributes"
         ],
-        Resource: [
-          var.sqs_queue_id
-        ]
+        Resource: var.sqs_queue_id
       }
     ]
   })
-  
 }
 
 # resource "aws_apigatewayv2_integration" "api_gateway_integration" {
