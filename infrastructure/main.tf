@@ -48,4 +48,5 @@ module "api_gateway" {
 
     service_name          = local.service_name
     sqs_queue_id          = module.sqs.sqs_queue_id
+    sqs_queue_arn         = module.sqs.sqs_queue_arn
 }

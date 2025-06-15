@@ -65,7 +65,7 @@ resource "aws_iam_role_policy" "api_gateway_policy" {
           "sqs:SendMessage",
           "sqs:GetQueueAttributes"
         ],
-        Resource: var.sqs_queue_id
+        Resource: var.sqs_queue_arn
       }
     ]
   })
