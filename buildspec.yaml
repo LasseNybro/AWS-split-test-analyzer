@@ -12,21 +12,23 @@ phases:
     runtime-versions:
       nodejs: 22.x
     commands:
+      - cd packages/api/POST/data
       - echo "Installing node dependencies..."
-      - cd packages/api/POST/data && yarn install
+      - yarn install
   pre_build:
     commands:
       - echo "Running tests..."
-      - cd packages/api/POST/data && yarn test
+      - yarn test
   build:
     commands:
-      - cd packages/api/POST/data && yarn workspaces focus --production
+      - yarn workspaces focus --production
       - echo "Building the Node.js application..."
-      - cd packages/api/POST/data && yarn build
-      - cd packages/api/POST/data && yarn zip
+      - yarn build
+      - yarn zip
 
   post_build:
     commands:
+      - cd ../../../../../
       - echo "Installing Terraform..."
       - curl -Lo terraform.zip https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip
       - unzip terraform.zip
