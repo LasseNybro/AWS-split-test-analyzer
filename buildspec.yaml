@@ -14,16 +14,16 @@ phases:
     commands:
       - cd packages/api/POST/data
       - echo "Installing node dependencies..."
-      - yarn install
+      - yarn install --frozen-lockfile
   pre_build:
     commands:
       - echo "Running tests..."
       - yarn test
   build:
     commands:
-      - yarn workspaces focus --production
       - echo "Building the Node.js application..."
       - yarn build
+      - yarn workspaces focus --production
       - yarn zip
 
   post_build:

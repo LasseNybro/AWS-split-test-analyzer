@@ -9,7 +9,7 @@ terraform {
   backend "s3" {
     encrypt        = true
     dynamodb_table = "terraform-state-lock"
-    key            = "terraform.tfstate"
+    key            = "${var.service.name}-terraform.tfstate"
     region         = "eu-north-1"
   }
 }
@@ -33,7 +33,7 @@ module "lambda" {
 
     service_name  = local.service_name
     dynamodb_arn  = module.dynamodb.dynamodb_arn
-    sqs_queue_arn = module.sqs.queue_arn
+    sqs_queue_arn = module.sqs.sqs_queue_arn
     dynamodb_table_name = module.dynamodb.dynamodb_table_name
 }
 
@@ -47,5 +47,5 @@ module "api_gateway" {
     source = "./api-gateway"
 
     service_name          = local.service_name
-    sqs_queue_id          = module.sqs.queue_id
+    sqs_queue_id          = module.sqs.sqs_queue_id
 }
