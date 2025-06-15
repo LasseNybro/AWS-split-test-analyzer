@@ -1,0 +1,31 @@
+{
+  "name": "data-lambda",
+  "version": "1.0.0",
+  "description": "lambda that posts data to a database from an api gateway",
+  "main": "handler.js",
+  "author": "LasseNybro",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest --config jest.config.js",
+    "start": "node ./dist/handler.js",
+    "build": "rimraf ./dist && tsc",
+    "zip": "(cd dist && zip -r ../post-data-lambda-code.zip .) && zip -ur post-data-lambda-code.zip node_modules"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.828.0",
+    "@aws-sdk/util-dynamodb": "^3.828.0",
+    "dotenv": "^16.5.0"
+  },
+  "packageManager": "yarn@4.9.2",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.149",
+    "@types/jest": "^29.5.14",
+    "aws-lambda": "^1.0.7",
+    "aws-sdk-client-mock": "^4.1.0",
+    "install": "^0.13.0",
+    "jest": "^30.0.0",
+    "rimraf": "^6.0.1",
+    "ts-jest": "^29.4.0",
+    "typescript": "^5.8.3"
+  }
+}
