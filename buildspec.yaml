@@ -13,17 +13,17 @@ phases:
       nodejs: 22.x
     commands:
       - echo "Installing node dependencies..."
-      - yarn install
+      - cd packages/api/POST/data && yarn install
   pre_build:
     commands:
       - echo "Running tests..."
-      - yarn test
+      - cd packages/api/POST/data && yarn test
   build:
     commands:
-      - yarn workspaces focus --production
+      - cd packages/api/POST/data && yarn workspaces focus --production
       - echo "Building the Node.js application..."
-      - yarn build
-      - yarn zip
+      - cd packages/api/POST/data && yarn build
+      - cd packages/api/POST/data && yarn zip
 
   post_build:
     commands:

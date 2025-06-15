@@ -135,6 +135,9 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+# install-state.gz
+*.gz
+
 # zip files
 *.zip
 
