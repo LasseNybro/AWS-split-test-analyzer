@@ -8,23 +8,24 @@ env:
     TF_STATE_KEY: "terraform/split-test-analyzer.tfstate" # specify the state key
 
 phases:
-  install-node:
+  install:
     runtime-versions:
       node: 20
     commands:
       - echo "Installing node dependencies..."
       - yarn install
-  test-node:
+  pre_build:
     commands:
       - echo "Running tests..."
       - yarn test
-  build-node:
+  build:
     commands:
       - yarn workspaces focus --production
       - echo "Building the Node.js application..."
       - yarn build
       - yarn zip
-  install-python:
+
+  post_build:
     runtime-versions:
       python: 3.x
     commands:
@@ -34,24 +35,18 @@ phases:
       - mv terraform /usr/local/bin/
       - terraform --version
       - echo "Terraform installed"
-
-  pre_build:
-    commands:
+      
       - echo "Setting up AWS credentials..."
       - aws sts get-caller-identity
       - echo "Initializing Terraform..."
       - cd infrastructure
       - terraform init -backend-config="bucket=${TF_STATE_BUCKET}" -backend-config="key=${TF_STATE_KEY}" -backend-config="region=${AWS_REGION}"
-
-  build:
-    commands:
+      
       - echo "Running Terraform Plan..."
       - terraform plan -out=tfplan
       - echo "Applying Terraform plan..."
       - terraform apply -auto-approve tfplan
 
-  post_build:
-    commands:
       - echo "Deployment complete!"
       - terraform output
 
