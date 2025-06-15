@@ -64,6 +64,15 @@ resource "aws_iam_role_policy" "lambda_policy" {
           "logs:PutLogEvents"
         ],
         Resource: "*"
+      },
+      {
+        Effect: "Allow",
+        Action: [
+          "sqs:ReceiveMessage",
+          "sqs:DeleteMessage",
+          "sqs:GetQueueAttributes"
+        ],
+        Resource: var.sqs_queue_arn
       }
     ]
   })
